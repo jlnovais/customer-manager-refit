@@ -3,6 +3,8 @@ using CustomerApi.Repositories.Interfaces;
 using Refit;
 using System.Net;
 using System.Net.Http.Headers;
+using CustomerApi.Dtos;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,5 +41,22 @@ app.MapGet("/customers/additionalInfo/{id}", async (string id, ICustomerAddition
         return Results.Unauthorized();
     }
 });
+
+
+app.MapPost("/soma", async ([FromBody] CustomerAdditionalInfoSomaNumerosDto numeros, ICustomerAdditionalInfoApi additionalInfoApi) =>
+{
+    try
+    {
+        var additionalInfo = await additionalInfoApi.PostSomaNumeros(numeros);
+
+        return Results.Ok(additionalInfo);
+    }
+    catch (ApiException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
+    {
+        return Results.Unauthorized();
+    }
+});
+
+
 
 app.Run();

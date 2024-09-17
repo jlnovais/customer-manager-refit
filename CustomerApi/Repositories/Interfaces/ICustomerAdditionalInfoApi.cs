@@ -6,4 +6,7 @@ public interface ICustomerAdditionalInfoApi
 {
     [Get("/customerAdditionalInfos/{customerId}")]
     Task<CustomerAdditionalInfoDto> GetCustomerAdditionalInfo(string customerId);
+
+    [Post("/somaNumeros")]
+    Task<int> PostSomaNumeros(CustomerAdditionalInfoSomaNumerosDto numeros);
 }

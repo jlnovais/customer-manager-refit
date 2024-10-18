@@ -2,7 +2,7 @@
 using Refit;
 
 namespace CustomerApi.Repositories.Interfaces;
-public interface ICustomerAdditionalInfoApi
+public interface ICustomerAdditionalInfoApiClient
 {
     [Get("/customerAdditionalInfos/{customerId}")]
     Task<CustomerAdditionalInfoDto> GetCustomerAdditionalInfo(string customerId);

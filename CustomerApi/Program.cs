@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IAuthTokenProvider, AuthTokenProvider>();
 
 builder.Services
-    .AddRefitClient<ICustomerAdditionalInfoApi>()
+    .AddRefitClient<ICustomerAdditionalInfoApiClient>()
     .ConfigureHttpClient((serviceProvider, c) =>
     {
         var tokenProvider = serviceProvider.GetRequiredService<IAuthTokenProvider>();
@@ -23,11 +23,11 @@ builder.Services
 
 var app = builder.Build();
 
-app.MapGet("/customers/additionalInfo/{id}", async (string id, ICustomerAdditionalInfoApi additionalInfoApi) =>
+app.MapGet("/customers/additionalInfo/{id}", async (string id, ICustomerAdditionalInfoApiClient additionalInfoApiClient) =>
 {
     try
     {
-        var additionalInfo = await additionalInfoApi.GetCustomerAdditionalInfo(id);
+        var additionalInfo = await additionalInfoApiClient.GetCustomerAdditionalInfo(id);
 
         return Results.Ok(additionalInfo);
     }
@@ -43,11 +43,11 @@ app.MapGet("/customers/additionalInfo/{id}", async (string id, ICustomerAddition
 });
 
 
-app.MapPost("/soma", async ([FromBody] CustomerAdditionalInfoSomaNumerosDto numeros, ICustomerAdditionalInfoApi additionalInfoApi) =>
+app.MapPost("/soma", async ([FromBody] CustomerAdditionalInfoSomaNumerosDto numeros, ICustomerAdditionalInfoApiClient additionalInfoApiClient) =>
 {
     try
     {
-        var additionalInfo = await additionalInfoApi.PostSomaNumeros(numeros);
+        var additionalInfo = await additionalInfoApiClient.PostSomaNumeros(numeros);
 
         return Results.Ok(additionalInfo);
     }
